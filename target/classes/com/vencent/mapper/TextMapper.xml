@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vencent.dao.TextMapper">
+  <resultMap id="BaseResultMap" type="com.vencent.pojo.Text">
+    <id column="text_id" jdbcType="INTEGER" property="textId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="textline" jdbcType="VARCHAR" property="textline" />
+    <result column="text_type" jdbcType="VARCHAR" property="textType" />
+    <result column="click" jdbcType="INTEGER" property="click" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.vencent.pojo.Text">
+    <result column="text" jdbcType="LONGVARCHAR" property="text" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    text_id, user_id, textline, text_type, click, create_date
+  </sql>
+  <sql id="Blob_Column_List">
+    text
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.vencent.pojo.TextExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from text
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.vencent.pojo.TextExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from text
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from text
+    where text_id = #{textId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from text
+    where text_id = #{textId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vencent.pojo.TextExample">
+    delete from text
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vencent.pojo.Text">
+    insert into text (text_id, user_id, textline, 
+      text_type, click, create_date, 
+      text)
+    values (#{textId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{textline,jdbcType=VARCHAR}, 
+      #{textType,jdbcType=VARCHAR}, #{click,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{text,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vencent.pojo.Text">
+    insert into text
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="textId != null">
+        text_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="textline != null">
+        textline,
+      </if>
+      <if test="textType != null">
+        text_type,
+      </if>
+      <if test="click != null">
+        click,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="text != null">
+        text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="textId != null">
+        #{textId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="textline != null">
+        #{textline,jdbcType=VARCHAR},
+      </if>
+      <if test="textType != null">
+        #{textType,jdbcType=VARCHAR},
+      </if>
+      <if test="click != null">
+        #{click,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vencent.pojo.TextExample" resultType="java.lang.Long">
+    select count(*) from text
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update text
+    <set>
+      <if test="record.textId != null">
+        text_id = #{record.textId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.textline != null">
+        textline = #{record.textline,jdbcType=VARCHAR},
+      </if>
+      <if test="record.textType != null">
+        text_type = #{record.textType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.click != null">
+        click = #{record.click,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.text != null">
+        text = #{record.text,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update text
+    set text_id = #{record.textId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      textline = #{record.textline,jdbcType=VARCHAR},
+      text_type = #{record.textType,jdbcType=VARCHAR},
+      click = #{record.click,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      text = #{record.text,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update text
+    set text_id = #{record.textId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      textline = #{record.textline,jdbcType=VARCHAR},
+      text_type = #{record.textType,jdbcType=VARCHAR},
+      click = #{record.click,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vencent.pojo.Text">
+    update text
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="textline != null">
+        textline = #{textline,jdbcType=VARCHAR},
+      </if>
+      <if test="textType != null">
+        text_type = #{textType,jdbcType=VARCHAR},
+      </if>
+      <if test="click != null">
+        click = #{click,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="text != null">
+        text = #{text,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where text_id = #{textId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.vencent.pojo.Text">
+    update text
+    set user_id = #{userId,jdbcType=INTEGER},
+      textline = #{textline,jdbcType=VARCHAR},
+      text_type = #{textType,jdbcType=VARCHAR},
+      click = #{click,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      text = #{text,jdbcType=LONGVARCHAR}
+    where text_id = #{textId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vencent.pojo.Text">
+    update text
+    set user_id = #{userId,jdbcType=INTEGER},
+      textline = #{textline,jdbcType=VARCHAR},
+      text_type = #{textType,jdbcType=VARCHAR},
+      click = #{click,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where text_id = #{textId,jdbcType=INTEGER}
+  </update>
+</mapper>

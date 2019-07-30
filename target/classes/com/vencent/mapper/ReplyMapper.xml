@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vencent.dao.ReplyMapper">
+  <resultMap id="BaseResultMap" type="com.vencent.pojo.Reply">
+    <id column="reply_id" jdbcType="INTEGER" property="replyId" />
+    <result column="reply_from" jdbcType="INTEGER" property="replyFrom" />
+    <result column="reply_date" jdbcType="TIMESTAMP" property="replyDate" />
+    <result column="text_id" jdbcType="INTEGER" property="textId" />
+    <result column="whisper_id" jdbcType="INTEGER" property="whisperId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.vencent.pojo.Reply">
+    <result column="reply_detail" jdbcType="LONGVARCHAR" property="replyDetail" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    reply_id, reply_from, reply_date, text_id, whisper_id
+  </sql>
+  <sql id="Blob_Column_List">
+    reply_detail
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.vencent.pojo.ReplyExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from reply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.vencent.pojo.ReplyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from reply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from reply
+    where reply_id = #{replyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from reply
+    where reply_id = #{replyId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vencent.pojo.ReplyExample">
+    delete from reply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vencent.pojo.Reply">
+    insert into reply (reply_id, reply_from, reply_date, 
+      text_id, whisper_id, reply_detail
+      )
+    values (#{replyId,jdbcType=INTEGER}, #{replyFrom,jdbcType=INTEGER}, #{replyDate,jdbcType=TIMESTAMP}, 
+      #{textId,jdbcType=INTEGER}, #{whisperId,jdbcType=INTEGER}, #{replyDetail,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vencent.pojo.Reply">
+    insert into reply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="replyId != null">
+        reply_id,
+      </if>
+      <if test="replyFrom != null">
+        reply_from,
+      </if>
+      <if test="replyDate != null">
+        reply_date,
+      </if>
+      <if test="textId != null">
+        text_id,
+      </if>
+      <if test="whisperId != null">
+        whisper_id,
+      </if>
+      <if test="replyDetail != null">
+        reply_detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="replyId != null">
+        #{replyId,jdbcType=INTEGER},
+      </if>
+      <if test="replyFrom != null">
+        #{replyFrom,jdbcType=INTEGER},
+      </if>
+      <if test="replyDate != null">
+        #{replyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="textId != null">
+        #{textId,jdbcType=INTEGER},
+      </if>
+      <if test="whisperId != null">
+        #{whisperId,jdbcType=INTEGER},
+      </if>
+      <if test="replyDetail != null">
+        #{replyDetail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vencent.pojo.ReplyExample" resultType="java.lang.Long">
+    select count(*) from reply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update reply
+    <set>
+      <if test="record.replyId != null">
+        reply_id = #{record.replyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.replyFrom != null">
+        reply_from = #{record.replyFrom,jdbcType=INTEGER},
+      </if>
+      <if test="record.replyDate != null">
+        reply_date = #{record.replyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.textId != null">
+        text_id = #{record.textId,jdbcType=INTEGER},
+      </if>
+      <if test="record.whisperId != null">
+        whisper_id = #{record.whisperId,jdbcType=INTEGER},
+      </if>
+      <if test="record.replyDetail != null">
+        reply_detail = #{record.replyDetail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update reply
+    set reply_id = #{record.replyId,jdbcType=INTEGER},
+      reply_from = #{record.replyFrom,jdbcType=INTEGER},
+      reply_date = #{record.replyDate,jdbcType=TIMESTAMP},
+      text_id = #{record.textId,jdbcType=INTEGER},
+      whisper_id = #{record.whisperId,jdbcType=INTEGER},
+      reply_detail = #{record.replyDetail,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update reply
+    set reply_id = #{record.replyId,jdbcType=INTEGER},
+      reply_from = #{record.replyFrom,jdbcType=INTEGER},
+      reply_date = #{record.replyDate,jdbcType=TIMESTAMP},
+      text_id = #{record.textId,jdbcType=INTEGER},
+      whisper_id = #{record.whisperId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vencent.pojo.Reply">
+    update reply
+    <set>
+      <if test="replyFrom != null">
+        reply_from = #{replyFrom,jdbcType=INTEGER},
+      </if>
+      <if test="replyDate != null">
+        reply_date = #{replyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="textId != null">
+        text_id = #{textId,jdbcType=INTEGER},
+      </if>
+      <if test="whisperId != null">
+        whisper_id = #{whisperId,jdbcType=INTEGER},
+      </if>
+      <if test="replyDetail != null">
+        reply_detail = #{replyDetail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where reply_id = #{replyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.vencent.pojo.Reply">
+    update reply
+    set reply_from = #{replyFrom,jdbcType=INTEGER},
+      reply_date = #{replyDate,jdbcType=TIMESTAMP},
+      text_id = #{textId,jdbcType=INTEGER},
+      whisper_id = #{whisperId,jdbcType=INTEGER},
+      reply_detail = #{replyDetail,jdbcType=LONGVARCHAR}
+    where reply_id = #{replyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vencent.pojo.Reply">
+    update reply
+    set reply_from = #{replyFrom,jdbcType=INTEGER},
+      reply_date = #{replyDate,jdbcType=TIMESTAMP},
+      text_id = #{textId,jdbcType=INTEGER},
+      whisper_id = #{whisperId,jdbcType=INTEGER}
+    where reply_id = #{replyId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vencent.dao.LeacotsMapper">
+  <resultMap id="BaseResultMap" type="com.vencent.pojo.Leacots">
+    <id column="leacots_id" jdbcType="INTEGER" property="leacotsId" />
+    <result column="leacots_date" jdbcType="TIMESTAMP" property="leacotsDate" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="usernick" jdbcType="VARCHAR" property="usernick" />
+    <result column="leacots_to" jdbcType="INTEGER" property="leacotsTo" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.vencent.pojo.Leacots">
+    <result column="leacots_detail" jdbcType="LONGVARCHAR" property="leacotsDetail" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    leacots_id, leacots_date, user_id, usernick, leacots_to
+  </sql>
+  <sql id="Blob_Column_List">
+    leacots_detail
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.vencent.pojo.LeacotsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from leacots
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.vencent.pojo.LeacotsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from leacots
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from leacots
+    where leacots_id = #{leacotsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from leacots
+    where leacots_id = #{leacotsId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vencent.pojo.LeacotsExample">
+    delete from leacots
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vencent.pojo.Leacots">
+    insert into leacots (leacots_id, leacots_date, user_id, 
+      usernick, leacots_to, leacots_detail
+      )
+    values (#{leacotsId,jdbcType=INTEGER}, #{leacotsDate,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, 
+      #{usernick,jdbcType=VARCHAR}, #{leacotsTo,jdbcType=INTEGER}, #{leacotsDetail,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vencent.pojo.Leacots">
+    insert into leacots
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="leacotsId != null">
+        leacots_id,
+      </if>
+      <if test="leacotsDate != null">
+        leacots_date,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="usernick != null">
+        usernick,
+      </if>
+      <if test="leacotsTo != null">
+        leacots_to,
+      </if>
+      <if test="leacotsDetail != null">
+        leacots_detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="leacotsId != null">
+        #{leacotsId,jdbcType=INTEGER},
+      </if>
+      <if test="leacotsDate != null">
+        #{leacotsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="usernick != null">
+        #{usernick,jdbcType=VARCHAR},
+      </if>
+      <if test="leacotsTo != null">
+        #{leacotsTo,jdbcType=INTEGER},
+      </if>
+      <if test="leacotsDetail != null">
+        #{leacotsDetail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vencent.pojo.LeacotsExample" resultType="java.lang.Long">
+    select count(*) from leacots
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update leacots
+    <set>
+      <if test="record.leacotsId != null">
+        leacots_id = #{record.leacotsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.leacotsDate != null">
+        leacots_date = #{record.leacotsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.usernick != null">
+        usernick = #{record.usernick,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leacotsTo != null">
+        leacots_to = #{record.leacotsTo,jdbcType=INTEGER},
+      </if>
+      <if test="record.leacotsDetail != null">
+        leacots_detail = #{record.leacotsDetail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update leacots
+    set leacots_id = #{record.leacotsId,jdbcType=INTEGER},
+      leacots_date = #{record.leacotsDate,jdbcType=TIMESTAMP},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      usernick = #{record.usernick,jdbcType=VARCHAR},
+      leacots_to = #{record.leacotsTo,jdbcType=INTEGER},
+      leacots_detail = #{record.leacotsDetail,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update leacots
+    set leacots_id = #{record.leacotsId,jdbcType=INTEGER},
+      leacots_date = #{record.leacotsDate,jdbcType=TIMESTAMP},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      usernick = #{record.usernick,jdbcType=VARCHAR},
+      leacots_to = #{record.leacotsTo,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vencent.pojo.Leacots">
+    update leacots
+    <set>
+      <if test="leacotsDate != null">
+        leacots_date = #{leacotsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="usernick != null">
+        usernick = #{usernick,jdbcType=VARCHAR},
+      </if>
+      <if test="leacotsTo != null">
+        leacots_to = #{leacotsTo,jdbcType=INTEGER},
+      </if>
+      <if test="leacotsDetail != null">
+        leacots_detail = #{leacotsDetail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where leacots_id = #{leacotsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.vencent.pojo.Leacots">
+    update leacots
+    set leacots_date = #{leacotsDate,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      usernick = #{usernick,jdbcType=VARCHAR},
+      leacots_to = #{leacotsTo,jdbcType=INTEGER},
+      leacots_detail = #{leacotsDetail,jdbcType=LONGVARCHAR}
+    where leacots_id = #{leacotsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vencent.pojo.Leacots">
+    update leacots
+    set leacots_date = #{leacotsDate,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      usernick = #{usernick,jdbcType=VARCHAR},
+      leacots_to = #{leacotsTo,jdbcType=INTEGER}
+    where leacots_id = #{leacotsId,jdbcType=INTEGER}
+  </update>
+</mapper>

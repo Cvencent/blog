@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vencent.dao.AlbumMapper">
+  <resultMap id="BaseResultMap" type="com.vencent.pojo.Album">
+    <id column="photo_id" jdbcType="INTEGER" property="photoId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
+    <result column="photo_date" jdbcType="VARCHAR" property="photoDate" />
+    <result column="photo_detail" jdbcType="VARCHAR" property="photoDetail" />
+    <result column="src" jdbcType="VARCHAR" property="src" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    photo_id, user_id, place, photo_date, photo_detail, src
+  </sql>
+  <select id="selectByExample" parameterType="com.vencent.pojo.AlbumExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from album
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from album
+    where photo_id = #{photoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from album
+    where photo_id = #{photoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vencent.pojo.AlbumExample">
+    delete from album
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vencent.pojo.Album">
+    insert into album (photo_id, user_id, place, 
+      photo_date, photo_detail, src
+      )
+    values (#{photoId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}, 
+      #{photoDate,jdbcType=VARCHAR}, #{photoDetail,jdbcType=VARCHAR}, #{src,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.vencent.pojo.Album">
+    insert into album
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="photoId != null">
+        photo_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="place != null">
+        place,
+      </if>
+      <if test="photoDate != null">
+        photo_date,
+      </if>
+      <if test="photoDetail != null">
+        photo_detail,
+      </if>
+      <if test="src != null">
+        src,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="photoId != null">
+        #{photoId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="place != null">
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="photoDate != null">
+        #{photoDate,jdbcType=VARCHAR},
+      </if>
+      <if test="photoDetail != null">
+        #{photoDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="src != null">
+        #{src,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vencent.pojo.AlbumExample" resultType="java.lang.Long">
+    select count(*) from album
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update album
+    <set>
+      <if test="record.photoId != null">
+        photo_id = #{record.photoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.place != null">
+        place = #{record.place,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photoDate != null">
+        photo_date = #{record.photoDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photoDetail != null">
+        photo_detail = #{record.photoDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.src != null">
+        src = #{record.src,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update album
+    set photo_id = #{record.photoId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      place = #{record.place,jdbcType=VARCHAR},
+      photo_date = #{record.photoDate,jdbcType=VARCHAR},
+      photo_detail = #{record.photoDetail,jdbcType=VARCHAR},
+      src = #{record.src,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vencent.pojo.Album">
+    update album
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="place != null">
+        place = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="photoDate != null">
+        photo_date = #{photoDate,jdbcType=VARCHAR},
+      </if>
+      <if test="photoDetail != null">
+        photo_detail = #{photoDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="src != null">
+        src = #{src,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where photo_id = #{photoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vencent.pojo.Album">
+    update album
+    set user_id = #{userId,jdbcType=INTEGER},
+      place = #{place,jdbcType=VARCHAR},
+      photo_date = #{photoDate,jdbcType=VARCHAR},
+      photo_detail = #{photoDetail,jdbcType=VARCHAR},
+      src = #{src,jdbcType=VARCHAR}
+    where photo_id = #{photoId,jdbcType=INTEGER}
+  </update>
+</mapper>
